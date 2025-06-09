@@ -11,8 +11,6 @@ commands:
   rol:
     description: Rotate craft left
     usage: /rol
-
-    #testing
-  hptest:
-    description: Spawns a floating health bar above the player
-    usage: /hptest
+  testing:
+    description: testing for whatever
+    usage: /test

@@ -10,7 +10,6 @@ version = "1.0.0"
 repositories {
     mavenCentral()
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven { githubPackage("apdevteam/movecraft")(this) }
     maven("https://jitpack.io")
 }
 
