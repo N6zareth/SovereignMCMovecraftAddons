@@ -20,6 +20,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.Transformation;
 
 import java.util.*;
 
@@ -38,9 +39,12 @@ public class CraftDisplaysPilotRelease implements Listener {
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
         String msg = event.getMessage().toLowerCase();
         Player player = event.getPlayer();
+
         if (msg.startsWith("/pilot")){
             Craft currentCraft = CraftManager.getInstance().getCraftByPlayer(player);
             if (currentCraft != null) return;
+
+            if ((isCraftTypeEqual(currentCraft, "submarine") || (isCraftTypeEqual(currentCraft, "shipyard")))) return;
 
             pendingPilot.put(event.getPlayer().getUniqueId(), System.currentTimeMillis());
 
@@ -48,6 +52,10 @@ public class CraftDisplaysPilotRelease implements Listener {
                 attemptSpawnDisplay(event.getPlayer());
             }, 1L);
         }
+    }
+
+    public boolean isCraftTypeEqual(Craft craft, String type) {
+        return craft.getType().getStringProperty(CraftType.NAME).equalsIgnoreCase(type);
     }
 
     private void attemptSpawnDisplay(Player player) {
@@ -80,6 +88,11 @@ public class CraftDisplaysPilotRelease implements Listener {
         textDisplay.setShadowed(true);
         textDisplay.setDefaultBackground(false);
         textDisplay.setViewRange(64);
+
+        // hopefully this makes it bigger
+        Transformation transformation = textDisplay.getTransformation();
+        transformation.getScale().set(3.0f, 3.0f, 3.0f);
+        textDisplay.setTransformation(transformation);
 
         craftTextDisplays.put(craft, textDisplay);
     }
