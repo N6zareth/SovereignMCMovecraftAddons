@@ -2,6 +2,7 @@ package net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay;
 
 import net.countercraft.movecraft.craft.Craft;
 import net.countercraft.movecraft.craft.CraftManager;
+import net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,9 +14,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CraftDisplayCommandListener implements Listener {
     private final CraftDisplayStorage store;
     private final CraftDisplayManager manager;
-    private final JavaPlugin plugin;
+    private final SovereignMCMovecraftAddons plugin;
 
-    public CraftDisplayCommandListener(JavaPlugin plugin, CraftDisplayStorage store, CraftDisplayManager manager) {
+    public CraftDisplayCommandListener(SovereignMCMovecraftAddons plugin, CraftDisplayStorage store, CraftDisplayManager manager) {
         this.plugin = plugin;
         this.store = store;
         this.manager = manager;
@@ -29,7 +30,6 @@ public class CraftDisplayCommandListener implements Listener {
         if (msg.startsWith("/pilot")) {
             Craft currentCraft = CraftManager.getInstance().getCraftByPlayer(player);
             if (currentCraft != null) return;
-
             store.pendingPilot.put(player.getUniqueId(), System.currentTimeMillis());
 
             Bukkit.getScheduler().runTaskLater(plugin, () -> {

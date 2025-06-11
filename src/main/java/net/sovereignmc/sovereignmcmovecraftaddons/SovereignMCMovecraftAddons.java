@@ -6,12 +6,15 @@ import net.sovereignmc.sovereignmcmovecraftaddons.commands.RotateCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ManOverboardListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ReleaseMessage;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.RotateMessage;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SovereignMCMovecraftAddons extends JavaPlugin {
+    private CraftHullIntegrityTracker hullTracker;
     @Override
     public void onEnable() {
+
+        // initialize hull integrity tracker
+        hullTracker = new CraftHullIntegrityTracker(this);
 
         // manoverboard!
         getServer().getPluginManager().registerEvents(new ManOverboardListener(), this);
@@ -27,13 +30,18 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
 
         // craft displays (the thingy that show pilot, craft health and size)
         CraftDisplayStorage store = new CraftDisplayStorage();
-        CraftDisplayManager manager = new CraftDisplayManager(store);
+        CraftDisplayManager manager = new CraftDisplayManager(store, this);
 
         getServer().getPluginManager().registerEvents(new CraftDisplayCommandListener(this, store, manager), this);
         getServer().getPluginManager().registerEvents(new CraftDisplayMovementListener(this, manager), this);
+//        getServer().getPluginManager().registerEvents(new CraftDisplayDamageManager(this, store, manager), this);
         getServer().getPluginManager().registerEvents(new CraftDisplayCleanupListener(manager), this);
 
         // remove text displays
         new RemoveTextDisplaysCommand(this);
+    }
+
+    public CraftHullIntegrityTracker getHullTracker() {
+        return this.hullTracker;
     }
 }
