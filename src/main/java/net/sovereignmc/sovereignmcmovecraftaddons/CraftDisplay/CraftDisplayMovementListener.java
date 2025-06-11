@@ -6,13 +6,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.java.JavaPlugin;
+import net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons;
 
 public class CraftDisplayMovementListener implements Listener {
-    private final JavaPlugin plugin;
+    private final SovereignMCMovecraftAddons plugin;
     private final CraftDisplayManager manager;
 
-    public CraftDisplayMovementListener(JavaPlugin plugin, CraftDisplayManager manager) {
+    public CraftDisplayMovementListener(SovereignMCMovecraftAddons plugin, CraftDisplayManager manager) {
         this.plugin = plugin;
         this.manager = manager;
     }

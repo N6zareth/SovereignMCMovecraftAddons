@@ -1,7 +1,7 @@
 package net.sovereignmc.sovereignmcmovecraftaddons;
 
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay.*;
-import net.sovereignmc.sovereignmcmovecraftaddons.commands.RemoveTextDisplaysCommand;
+//import net.sovereignmc.sovereignmcmovecraftaddons.commands.RemoveTextDisplaysCommand;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RotateCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ManOverboardListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ReleaseMessage;
@@ -34,11 +34,10 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new CraftDisplayCommandListener(this, store, manager), this);
         getServer().getPluginManager().registerEvents(new CraftDisplayMovementListener(this, manager), this);
-//        getServer().getPluginManager().registerEvents(new CraftDisplayDamageManager(this, store, manager), this);
         getServer().getPluginManager().registerEvents(new CraftDisplayCleanupListener(manager), this);
 
         // remove text displays
-        new RemoveTextDisplaysCommand(this);
+//        new RemoveTextDisplaysCommand(this);
     }
 
     public CraftHullIntegrityTracker getHullTracker() {

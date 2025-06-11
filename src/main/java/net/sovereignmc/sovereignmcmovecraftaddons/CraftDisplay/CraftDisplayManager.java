@@ -68,8 +68,11 @@ public class CraftDisplayManager {
         String craftType = craft.getType().getStringProperty(CraftType.NAME);
         String craftName = craft.getName();
 
+        String integrityString = hullTracker.getCurrentIntegrityString(craft).replace("\n", " ").replace("\r", "");
+
         Component displayText = MiniMessage.miniMessage().deserialize(
-                "<bold><italic>" + pilotName + "'s " + craftType + " (" + size + ") " + hullTracker.getCurrentIntegrityString(craft) + " " + craftName + "</bold>");
+
+                "<bold><italic>" + pilotName + "'s " + craftType + " (" + size + ") " + integrityString + " " + craftName + "</bold>");
 
         textDisplay.text(displayText);
         textDisplay.setBillboard(Display.Billboard.CENTER);
@@ -124,5 +127,4 @@ public class CraftDisplayManager {
 
         display.text(displayText);
     }
-
 }
