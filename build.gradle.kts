@@ -16,6 +16,7 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.20.6-R0.1-SNAPSHOT")
     compileOnly(files("libs/Movecraft_8.0.0_beta-5.jar"))
+    compileOnly(files("libs/Movecraft-Combat_2.0.0_beta-6.jar"))
     implementation("net.kyori:adventure-api:4.21.0")
     implementation("net.kyori:adventure-platform-bukkit:4.4.0")
 }
