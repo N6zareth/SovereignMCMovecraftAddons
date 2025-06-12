@@ -20,3 +20,6 @@ commands:
   craftcomp:
     description: Craft Calculation
     usage: /craftcomp
+  ammo:
+    description: Ammunition
+    usage: /ammo

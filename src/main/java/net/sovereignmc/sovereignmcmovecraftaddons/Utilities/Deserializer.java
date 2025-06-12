@@ -1,4 +1,4 @@
-package net.sovereignmc.sovereignmcmovecraftaddons;
+package net.sovereignmc.sovereignmcmovecraftaddons.Utilities;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;

@@ -1,11 +1,11 @@
 package net.sovereignmc.sovereignmcmovecraftaddons;
 
-import net.sovereignmc.sovereignmcmovecraftaddons.CraftComposition.BlockCountConsolidator;
+import net.sovereignmc.sovereignmcmovecraftaddons.AmmoDisplay.AmmoCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay.*;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RemoveTextDisplaysCommand;
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftComposition.CraftCompCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RotateCommands;
-import net.sovereignmc.sovereignmcmovecraftaddons.CraftComposition.InventoryCancellerListener;
+import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.InventoryCancellerListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ManOverboardListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ReleaseMessage;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.RotateMessage;
@@ -43,12 +43,16 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
         new RemoveTextDisplaysCommand(this);
 
         //craftcomp
-        InventoryCancellerListener inventoryListener = new InventoryCancellerListener();
+        InventoryCancellerListener inventoryListener = new InventoryCancellerListener(this);
         CraftCompCommands compCommands = new CraftCompCommands(this, inventoryListener);
-        inventoryListener.setCommandHandler(compCommands);
 
         getServer().getPluginManager().registerEvents(inventoryListener, this);
         getCommand("craftcomp").setExecutor(compCommands);
+
+        //ammo
+        AmmoCommands ammoCommands = new AmmoCommands(this, inventoryListener);
+        inventoryListener.setAmmoCommandHandler(ammoCommands);
+        getCommand("ammo").setExecutor(ammoCommands);
     }
 
     public CraftHullIntegrityTracker getHullTracker() {

@@ -6,7 +6,9 @@ import net.countercraft.movecraft.craft.CraftManager;
 import net.countercraft.movecraft.craft.type.CraftType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.sovereignmc.sovereignmcmovecraftaddons.AmmoDisplay.GUIEnum;
 import net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons;
+import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.InventoryCancellerListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,7 +24,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static net.sovereignmc.sovereignmcmovecraftaddons.Deserializer.NazyDeserializer;
+import static net.sovereignmc.sovereignmcmovecraftaddons.Utilities.Deserializer.NazyDeserializer;
 
 
 public class CraftCompCommands implements CommandExecutor {
@@ -102,7 +104,7 @@ public class CraftCompCommands implements CommandExecutor {
         boolean needsNav = (end < sortedEntries.size()) || (page > 0);
 
         if (needsNav) {
-            rows += 1; // Add extra row only if nav is needed
+            rows += 1;
         }
         rows = Math.max(1, Math.min(rows, 6));
         int size = rows * 9;
@@ -159,7 +161,7 @@ public class CraftCompCommands implements CommandExecutor {
             inventory.setItem(lastRowStart + 4, closeButton());
         }
 
-        inventoryListener.track(inventory);
+        inventoryListener.track(player, inventory, GUIEnum.COMP);
         player.openInventory(inventory);
     }
 
