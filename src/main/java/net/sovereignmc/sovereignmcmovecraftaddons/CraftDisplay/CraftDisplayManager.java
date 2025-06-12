@@ -72,7 +72,7 @@ public class CraftDisplayManager {
 
         Component displayText = MiniMessage.miniMessage().deserialize(
 
-                "<bold><italic>" + pilotName + "'s " + craftType + " (" + size + ") " + integrityString + " " + craftName + "</bold>");
+                "<bold><italic>" + pilotName + "'s " + craftType + " (" + size + ") \\n" + craftName + integrityString +"</bold>");
 
         textDisplay.text(displayText);
         textDisplay.setBillboard(Display.Billboard.CENTER);
