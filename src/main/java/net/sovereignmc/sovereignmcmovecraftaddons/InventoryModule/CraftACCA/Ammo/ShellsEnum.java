@@ -1,4 +1,4 @@
-package net.sovereignmc.sovereignmcmovecraftaddons.AmmoDisplay;
+package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.Ammo;
 
 import org.bukkit.Material;
 

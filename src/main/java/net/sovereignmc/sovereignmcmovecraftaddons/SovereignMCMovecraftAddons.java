@@ -1,11 +1,11 @@
 package net.sovereignmc.sovereignmcmovecraftaddons;
 
-import net.sovereignmc.sovereignmcmovecraftaddons.AmmoDisplay.AmmoCommands;
+import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.Ammo.AmmoCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay.*;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RemoveTextDisplaysCommand;
-import net.sovereignmc.sovereignmcmovecraftaddons.CraftComposition.CraftCompCommands;
+import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftComposition.CraftCompCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RotateCommands;
-import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.InventoryCancellerListener;
+import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.InventoryListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ManOverboardListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.ReleaseMessage;
 import net.sovereignmc.sovereignmcmovecraftaddons.listeners.RotateMessage;
@@ -42,17 +42,15 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
         // remove text displays
         new RemoveTextDisplaysCommand(this);
 
-        //craftcomp
-        InventoryCancellerListener inventoryListener = new InventoryCancellerListener(this);
-        CraftCompCommands compCommands = new CraftCompCommands(this, inventoryListener);
-
+        // inv listenre handles PaginatedGUI clicks globally
+        InventoryListener inventoryListener = new InventoryListener();
         getServer().getPluginManager().registerEvents(inventoryListener, this);
-        getCommand("craftcomp").setExecutor(compCommands);
 
-        //ammo
-        AmmoCommands ammoCommands = new AmmoCommands(this, inventoryListener);
-        inventoryListener.setAmmoCommandHandler(ammoCommands);
-        getCommand("ammo").setExecutor(ammoCommands);
+        //craftcomp
+        getCommand("craftcomp").setExecutor(new CraftCompCommands());
+
+        // ammo commands
+        getCommand("ammo").setExecutor(new AmmoCommands(this));
     }
 
     public CraftHullIntegrityTracker getHullTracker() {

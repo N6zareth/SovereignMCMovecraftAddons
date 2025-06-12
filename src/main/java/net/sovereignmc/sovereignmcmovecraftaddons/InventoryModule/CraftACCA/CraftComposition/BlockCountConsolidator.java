@@ -1,4 +1,4 @@
-package net.sovereignmc.sovereignmcmovecraftaddons.CraftComposition;
+package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftComposition;
 
 import org.bukkit.Material;
 
