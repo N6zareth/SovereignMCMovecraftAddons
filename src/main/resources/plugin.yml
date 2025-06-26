@@ -17,9 +17,15 @@ commands:
   cleardisplays:
     description: Removes all TextDisplay entities within 3 blocks.
     usage: /cleardisplays
+  allowedblocks:
+    description: Allowed Blocks
+    usage: /allowedblocks
   craftcomp:
-    description: Craft Calculation
+    description: Craft CraftCalculation
     usage: /craftcomp
   ammo:
     description: Ammunition
     usage: /ammo
+  craftstorage:
+    description: Craft Storage
+    usage: /craftstorage
