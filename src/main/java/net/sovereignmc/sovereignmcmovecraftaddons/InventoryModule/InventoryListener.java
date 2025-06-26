@@ -1,5 +1,7 @@
 package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule;
 
+import net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,8 +25,12 @@ public class InventoryListener implements Listener {
 
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
-        if (event.getPlayer() instanceof Player player) {
-            InventoryManager.untrack(player);
-        }
+        if (!(event.getPlayer() instanceof Player player)) return;
+
+        InventoryManager.untrack(player);
+
+        Bukkit.getScheduler().runTaskLater(SovereignMCMovecraftAddons.getInstance(), () -> {
+            player.updateInventory();
+        }, 1L);
     }
 }
