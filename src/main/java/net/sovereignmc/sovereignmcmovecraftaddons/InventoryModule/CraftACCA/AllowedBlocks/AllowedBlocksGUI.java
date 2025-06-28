@@ -2,17 +2,13 @@ package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.All
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftComposition.BlockCountConsolidator;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.PaginatedGUI;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static net.sovereignmc.sovereignmcmovecraftaddons.Utilities.Deserializer.NazyDeserializer;
@@ -31,15 +27,17 @@ public class AllowedBlocksGUI extends PaginatedGUI {
     protected List<ItemStack> getPageItems() {
         List<ItemStack> items = new ArrayList<>();
 
-        for (Material original : allowed) {
-            Material mat = BlockCountConsolidator.normalizeMaterial(original);
+        for (Material mat : allowed) {
+            if (!mat.isBlock()) continue;
+
             ItemStack item = new ItemStack(mat);
             ItemMeta meta = item.getItemMeta();
             if (meta != null) {
                 String prettyName = formatMaterialName(mat);
-                meta.setDisplayName(NazyDeserializer(prettyName));
+                meta.setDisplayName(NazyDeserializer("<white><!i>" + prettyName));
                 item.setItemMeta(meta);
             }
+
             items.add(item);
         }
 
@@ -52,18 +50,12 @@ public class AllowedBlocksGUI extends PaginatedGUI {
 
     @Override
     protected Component getTitle() {
-        return MiniMessage.miniMessage().deserialize("<green>" + craftName + " Allowed Blocks");
+        return MiniMessage.miniMessage().deserialize("<#6E97C8>Allowed Blocks for " + craftName);
     }
 
-    private String formatMaterialName(Material material) {
-        String name = material.name().toLowerCase().replace('_', ' ');
-
-        if (name.startsWith("white ") && name.endsWith("wool")) return "Wool";
-        if (name.startsWith("white ") && name.endsWith("concrete")) return "Concrete";
-        if (name.endsWith("planks")) return name.replace("planks", "wood");
-
-        return Arrays.stream(name.split(" "))
-                .map(s -> Character.toUpperCase(s.charAt(0)) + s.substring(1))
+    private String formatMaterialName(Material mat) {
+        return Arrays.stream(mat.name().toLowerCase().split("_"))
+                .map(word -> word.substring(0, 1).toUpperCase() + word.substring(1))
                 .collect(Collectors.joining(" "));
     }
 }

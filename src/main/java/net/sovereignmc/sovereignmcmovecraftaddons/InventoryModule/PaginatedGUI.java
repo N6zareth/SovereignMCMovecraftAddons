@@ -1,7 +1,9 @@
 package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -19,6 +21,8 @@ public abstract class PaginatedGUI {
     protected final UUID playerId;
     protected int currentPage = 0;
     protected final int itemsPerPage = 45;
+    protected String currentSearch = null;
+    protected boolean searching = false;
 
     public PaginatedGUI(Player player) {
         this.player = player;
@@ -28,10 +32,17 @@ public abstract class PaginatedGUI {
     public void open() {
         Inventory inventory = Bukkit.createInventory(player, 54, getTitle());
 
-        List<ItemStack> allItems = getPageItems();
+        List<ItemStack> allItems = getFilteredItems();
+
+        int maxPages = Math.max(1, (int) Math.ceil(allItems.size() / (double) itemsPerPage));
+        currentPage = Math.min(currentPage, maxPages - 1);
+
         int start = currentPage * itemsPerPage;
         int end = Math.min(start + itemsPerPage, allItems.size());
+
         List<ItemStack> pageItems = allItems.subList(start, end);
+
+        System.out.println(allItems.size());
 
         for (int i = 0; i < pageItems.size(); i++) {
             inventory.setItem(i, pageItems.get(i));
@@ -52,13 +63,21 @@ public abstract class PaginatedGUI {
         }
 
         if (currentPage > 0) {
-            inv.setItem(navRowStart + 3, navButton("Previous Page", 555501));
-        }
-        if (start + itemsPerPage < totalSize) {
-            inv.setItem(navRowStart + 5, navButton("Next Page", 555502));
+            inv.setItem(navRowStart + 3, navButton("Previous Page", 2200007));
         }
 
-        inv.setItem(navRowStart + 4, closeButton());
+        if (start + itemsPerPage < totalSize) {
+            inv.setItem(navRowStart + 5, navButton("Next Page", 2200009));
+        }
+
+        ItemStack searchItem = new ItemStack(Material.NAME_TAG);
+        ItemMeta meta = searchItem.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(NazyDeserializer("<white><!i>Search"));
+            meta.setCustomModelData(2200005);
+            searchItem.setItemMeta(meta);
+        }
+        inv.setItem(navRowStart + 4, searchItem);
     }
 
     public void handleClick(InventoryClickEvent event) {
@@ -75,13 +94,18 @@ public abstract class PaginatedGUI {
 
         if (meta.hasCustomModelData()) {
             switch (meta.getCustomModelData()) {
-                case 555501 -> {
+                case 2200007 -> {
                     currentPage = Math.max(0, currentPage - 1);
                     open();
                 }
-                case 555502 -> {
+                case 2200009 -> {
                     currentPage++;
                     open();
+                }
+                case 2200005 -> {
+                    searching = true;
+                    player.closeInventory();
+                    player.sendRichMessage("<gray>Type your search term in chat...");
                 }
                 default -> onItemClick(event.getSlot(), clicked);
             }
@@ -91,21 +115,11 @@ public abstract class PaginatedGUI {
     }
 
     protected ItemStack navButton(String name, int modelData) {
-        ItemStack item = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
+        ItemStack item = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
-            meta.setDisplayName(NazyDeserializer("<gray><!i>" + name));
+            meta.setDisplayName(NazyDeserializer("<white><!i>" + name));
             meta.setCustomModelData(modelData);
-            item.setItemMeta(meta);
-        }
-        return item;
-    }
-
-    protected ItemStack closeButton() {
-        ItemStack item = new ItemStack(Material.BARRIER);
-        ItemMeta meta = item.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(NazyDeserializer("<red><!i>Close"));
             item.setItemMeta(meta);
         }
         return item;
@@ -116,10 +130,32 @@ public abstract class PaginatedGUI {
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(NazyDeserializer(" "));
-            meta.setCustomModelData(555599);
+            meta.setCustomModelData(2200002);
             item.setItemMeta(meta);
         }
         return item;
+    }
+
+    public void setSearch(String query) {
+        this.currentSearch = query == null ? null : query.toLowerCase();
+        this.currentPage = 0;
+        open();
+    }
+
+    private static final MiniMessage MINI = MiniMessage.miniMessage();
+    private List<ItemStack> getFilteredItems() {
+        List<ItemStack> all = getPageItems();
+
+        if (currentSearch == null) return all;
+
+        return all.stream()
+                .filter(item -> {
+                    if (!item.hasItemMeta()) return false;
+                    ItemMeta meta = item.getItemMeta();
+                    return meta.hasDisplayName() &&
+                            ChatColor.stripColor(meta.getDisplayName()).toLowerCase().contains(currentSearch);
+                })
+                .toList();
     }
 
     protected abstract List<ItemStack> getPageItems();

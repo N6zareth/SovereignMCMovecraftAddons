@@ -6,6 +6,7 @@ import net.countercraft.movecraft.craft.type.CraftType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.PaginatedGUI;
+import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.BlockCountConsolidator;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -42,7 +43,6 @@ public class CraftCompGUI extends PaginatedGUI {
     @Override
     protected List<ItemStack> getPageItems() {
         List<ItemStack> items = new ArrayList<>();
-        int total = blockCounts.values().stream().mapToInt(Integer::intValue).sum();
 
         for (Map.Entry<Material, Integer> entry : sortedEntries) {
             ItemStack item = new ItemStack(entry.getKey());
