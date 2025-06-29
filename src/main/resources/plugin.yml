@@ -4,28 +4,29 @@ main: net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons
 api-version: '1.20'
 
 commands:
-  # rotate alias
   ror:
     description: Rotate craft right
     usage: /ror
   rol:
     description: Rotate craft left
     usage: /rol
-  testing:
-    description: testing for whatever
-    usage: /test
   cleardisplays:
     description: Removes all TextDisplay entities within 3 blocks.
     usage: /cleardisplays
-  allowedblocks:
-    description: Allowed Blocks
-    usage: /allowedblocks
+    permission: nazy.cleardisplays
+  craftblocks:
+    description: Craft Blocks
+    usage: /craftblocks
+    permission: nazy.craftblocks
   craftcomp:
-    description: Craft CraftCalculation
+    description: Craft Composition
     usage: /craftcomp
-  ammo:
+    permission: nazy.craftcomp
+  craftammo:
     description: Ammunition
-    usage: /ammo
+    usage: /craftammo
+    permission: nazy.craftammo
   craftstorage:
     description: Craft Storage
     usage: /craftstorage
+    permission: nazy.craftstorage

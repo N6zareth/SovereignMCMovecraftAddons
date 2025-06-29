@@ -1,6 +1,7 @@
 package net.sovereignmc.sovereignmcmovecraftaddons;
 
-import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.AllowedBlocks.AllowedBlocksCommand;
+import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftBlocks.CraftBlocksCommand;
+import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftBlocks.AllowedBlocksTabCompleter;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.Ammo.AmmoCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay.*;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftStorage.ContainerReturnListener;
@@ -30,7 +31,7 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
         // manoverboard!
         getServer().getPluginManager().registerEvents(new ManOverboardListener(), this);
 
-        // rtato :3
+        // rotate
         RotateCommands rotateCommands = new RotateCommands();
         this.getCommand("ror").setExecutor(rotateCommands);
         this.getCommand("rol").setExecutor(rotateCommands);
@@ -48,7 +49,7 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new CraftDisplayCleanupListener(manager), this);
 
         // remove text displays
-        new RemoveTextDisplaysCommand(this);
+        this.getCommand("cleardisplays").setExecutor(new RemoveTextDisplaysCommand());
 
         // inv listenre handles PaginatedGUI clicks globally
         InventoryListener inventoryListener = new InventoryListener();
@@ -58,10 +59,11 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
         getCommand("craftcomp").setExecutor(new CraftCompCommands());
 
         // ammo commands
-        getCommand("ammo").setExecutor(new AmmoCommands(this));
+        getCommand("craftammo").setExecutor(new AmmoCommands(this));
 
         //allowedblocks
-        getCommand("allowedblocks").setExecutor(new AllowedBlocksCommand());
+        getCommand("craftblocks").setExecutor(new CraftBlocksCommand());
+        getCommand("craftblocks").setTabCompleter(new AllowedBlocksTabCompleter());
 
         //craftstorage
         getCommand("craftstorage").setExecutor(new CraftStorageCommand());

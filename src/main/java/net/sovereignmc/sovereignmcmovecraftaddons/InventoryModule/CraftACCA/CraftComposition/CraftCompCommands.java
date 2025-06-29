@@ -19,6 +19,11 @@ public class CraftCompCommands implements CommandExecutor {
             return true;
         }
 
+        if (!player.hasPermission("nazy.craftcomp")) {
+            player.sendRichMessage("<red>Permissions disabled!");
+            return true;
+        }
+
         new CraftCompGUI(player, craft).open();
         return true;
     }

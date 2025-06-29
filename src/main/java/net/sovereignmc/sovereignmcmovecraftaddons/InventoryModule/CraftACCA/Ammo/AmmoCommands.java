@@ -17,6 +17,11 @@ public class AmmoCommands implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
 
+        if (!player.hasPermission("nazy.craftammo")) {
+            player.sendRichMessage("<red>Permissions disabled!");
+            return true;
+        }
+
         new AmmoGUI(player, plugin).open();
         return true;
     }

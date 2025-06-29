@@ -18,6 +18,11 @@ public class CraftStorageCommand implements CommandExecutor {
             return true;
         }
 
+        if (!player.hasPermission("nazy.craftstorage")) {
+            player.sendRichMessage("<red>Permissions disabled!");
+            return true;
+        }
+
         new CraftStorageGUI(player, craft).open();
         return true;
     }

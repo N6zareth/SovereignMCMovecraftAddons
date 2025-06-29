@@ -61,6 +61,6 @@ public class AmmoGUI extends PaginatedGUI {
 
     @Override
     protected Component getTitle() {
-        return MiniMessage.miniMessage().deserialize("<#6E97C8>Ammo Selection");
+        return MiniMessage.miniMessage().deserialize("<dark_gray><bold>      Craft Ammunition");
     }
 }

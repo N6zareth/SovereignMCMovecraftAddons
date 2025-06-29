@@ -1,4 +1,4 @@
-package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.AllowedBlocks;
+package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftBlocks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 
 import static net.sovereignmc.sovereignmcmovecraftaddons.Utilities.Deserializer.NazyDeserializer;
 
-public class AllowedBlocksGUI extends PaginatedGUI {
+public class CraftBlocksGUI extends PaginatedGUI {
     private final String craftName;
     private final Set<Material> allowed;
 
-    public AllowedBlocksGUI(Player player, String craftName, Set<Material> allowed) {
+    public CraftBlocksGUI(Player player, String craftName, Set<Material> allowed) {
         super(player);
         this.craftName = craftName;
         this.allowed = allowed;
@@ -50,7 +50,7 @@ public class AllowedBlocksGUI extends PaginatedGUI {
 
     @Override
     protected Component getTitle() {
-        return MiniMessage.miniMessage().deserialize("<#6E97C8>Allowed Blocks for " + craftName);
+        return MiniMessage.miniMessage().deserialize("<dark_green>Allowed Blocks <dark_gray>- <dark_green>" + craftName);
     }
 
     private String formatMaterialName(Material mat) {

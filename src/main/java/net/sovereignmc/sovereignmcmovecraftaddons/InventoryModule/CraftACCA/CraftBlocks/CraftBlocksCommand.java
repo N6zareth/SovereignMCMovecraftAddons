@@ -1,8 +1,7 @@
-package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.AllowedBlocks;
+package net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftBlocks;
 
 import net.countercraft.movecraft.craft.CraftManager;
 import net.countercraft.movecraft.craft.type.CraftType;
-import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.BlockCountConsolidator;
 import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.TagResolverUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -19,14 +18,19 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 
-public class AllowedBlocksCommand implements CommandExecutor {
+public class CraftBlocksCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) return true;
 
+        if (!player.hasPermission("nazy.craftblocks")) {
+            player.sendRichMessage("<red>Permissions disabled!");
+            return true;
+        }
+
         if (args.length == 0) {
-            player.sendMessage("Usage: /allowedblocks <craftName>");
+            player.sendMessage("Usage: /craftblocks <craftName>");
             return true;
         }
 
@@ -67,7 +71,7 @@ public class AllowedBlocksCommand implements CommandExecutor {
             return true;
         }
 
-        new AllowedBlocksGUI(player, craftName, normalizedDetectableMaterials).open();
+        new CraftBlocksGUI(player, craftName, normalizedDetectableMaterials).open();
         return true;
     }
 
@@ -77,11 +81,6 @@ public class AllowedBlocksCommand implements CommandExecutor {
                 Bukkit.getPluginManager().getPlugin("Movecraft").getDataFolder(),
                 "types/" + craftTypeName + ".craft"
         );
-
-        if (!craftTypeFile.exists()) {
-            Bukkit.getLogger().warning("[AllowedBlocks] File not found: " + craftTypeFile.getName());
-            return allowedMaterials;
-        }
 
         boolean inAllowedBlocks = false;
 

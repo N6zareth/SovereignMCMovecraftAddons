@@ -6,18 +6,18 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class RemoveTextDisplaysCommand implements CommandExecutor {
-
-    public RemoveTextDisplaysCommand(JavaPlugin plugin) {
-        plugin.getCommand("cleardisplays").setExecutor(this);
-    }
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendRichMessage("<dark_red>Only players can run this command</dark_red>");
+            return true;
+        }
+
+        if (!player.hasPermission("nazy.cleardisplays")) {
+            player.sendRichMessage("<red>Permissions disabled!");
             return true;
         }
 
