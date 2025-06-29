@@ -1,13 +1,11 @@
 package net.sovereignmc.sovereignmcmovecraftaddons.listeners;
 
-
-import com.github.sirblobman.combatlogx.api.ICombatLogX;
-import com.github.sirblobman.combatlogx.api.manager.ICombatManager;
-import com.github.sirblobman.combatlogx.manager.CombatManager;
 import net.countercraft.movecraft.Movecraft;
 import net.countercraft.movecraft.MovecraftLocation;
 import net.countercraft.movecraft.craft.Craft;
 import net.countercraft.movecraft.craft.CraftManager;
+import net.sovereignmc.sovereignmcmovecraftaddons.SovereignMCMovecraftAddons;
+import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.CombatTagManager;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
@@ -18,6 +16,11 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.util.Vector;
 
 public class ManOverboardListener implements Listener {
+    private final CombatTagManager combatTagManager;
+
+    public ManOverboardListener(SovereignMCMovecraftAddons plugin, CombatTagManager combatTagManager) {
+        this.combatTagManager = combatTagManager;
+    }
 
     @EventHandler
     public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
@@ -29,8 +32,13 @@ public class ManOverboardListener implements Listener {
 
         Craft craft = CraftManager.getInstance().getCraftByPlayer(player);
 
-        if (player.hasMetadata("combatlogx:tagged")) {
-            player.sendRichMessage("<#6E97C8>[\u2693] You can't go manoverboard while in combat!");
+        if (craft == null) {
+            player.sendRichMessage("<#6E97C8>[\u2693] You must pilot a craft to go manoverboard!");
+            return;
+        }
+
+        if (combatTagManager.isTagged(player)) {
+            player.sendRichMessage("<dark_red>[\uD83D\uDDE1] You cannot go manoverboard while in combat!");
             return;
         }
 

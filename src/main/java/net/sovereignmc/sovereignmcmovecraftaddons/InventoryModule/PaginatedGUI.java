@@ -70,14 +70,16 @@ public abstract class PaginatedGUI {
             inv.setItem(navRowStart + 5, navButton("Next Page", 2200009));
         }
 
-        ItemStack searchItem = new ItemStack(Material.NAME_TAG);
-        ItemMeta meta = searchItem.getItemMeta();
-        if (meta != null) {
-            meta.setDisplayName(NazyDeserializer("<white><!i>Search"));
-            meta.setCustomModelData(2200005);
-            searchItem.setItemMeta(meta);
+        if (isSearchEnabled()) {
+            ItemStack searchItem = new ItemStack(Material.NAME_TAG);
+            ItemMeta meta = searchItem.getItemMeta();
+            if (meta != null) {
+                meta.setDisplayName(NazyDeserializer("<white><!i>Search"));
+                meta.setCustomModelData(2200005);
+                searchItem.setItemMeta(meta);
+            }
+            inv.setItem(navRowStart + 4, searchItem);
         }
-        inv.setItem(navRowStart + 4, searchItem);
     }
 
     public void handleClick(InventoryClickEvent event) {
@@ -103,9 +105,11 @@ public abstract class PaginatedGUI {
                     open();
                 }
                 case 2200005 -> {
-                    searching = true;
-                    player.closeInventory();
-                    player.sendRichMessage("<gray>Type your search term in chat...");
+                    if (isSearchEnabled()) {
+                        searching = true;
+                        player.closeInventory();
+                        player.sendRichMessage("<gray>Type your search term in chat...");
+                    }
                 }
                 default -> onItemClick(event.getSlot(), clicked);
             }
@@ -123,6 +127,10 @@ public abstract class PaginatedGUI {
             item.setItemMeta(meta);
         }
         return item;
+    }
+
+    protected boolean isSearchEnabled() {
+        return true;
     }
 
     protected ItemStack filler() {

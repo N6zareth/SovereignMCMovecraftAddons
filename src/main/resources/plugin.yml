@@ -11,22 +11,17 @@ commands:
     description: Rotate craft left
     usage: /rol
   cleardisplays:
-    description: Removes all TextDisplay entities within 3 blocks.
     usage: /cleardisplays
     permission: nazy.cleardisplays
   craftblocks:
-    description: Craft Blocks
     usage: /craftblocks
     permission: nazy.craftblocks
   craftcomp:
-    description: Craft Composition
     usage: /craftcomp
     permission: nazy.craftcomp
   craftammo:
-    description: Ammunition
     usage: /craftammo
     permission: nazy.craftammo
   craftstorage:
-    description: Craft Storage
     usage: /craftstorage
     permission: nazy.craftstorage

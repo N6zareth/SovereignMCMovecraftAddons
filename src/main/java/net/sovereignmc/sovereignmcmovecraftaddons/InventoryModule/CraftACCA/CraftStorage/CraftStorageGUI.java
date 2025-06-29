@@ -116,4 +116,9 @@ public class CraftStorageGUI extends PaginatedGUI {
                 .map(s -> Character.toUpperCase(s.charAt(0)) + s.substring(1))
                 .collect(Collectors.joining(" "));
     }
+
+    @Override
+    protected boolean isSearchEnabled() {
+        return false;
+    }
 }

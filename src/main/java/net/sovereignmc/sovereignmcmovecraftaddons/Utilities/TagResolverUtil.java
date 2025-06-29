@@ -6,7 +6,6 @@ import org.bukkit.Tag;
 
 import java.util.EnumSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TagResolverUtil {
 
@@ -101,8 +100,6 @@ public class TagResolverUtil {
                 break;
         }
 
-        return result.stream()
-                .map(BlockCountConsolidator::normalizeMaterial)
-                .collect(Collectors.toSet());
+        return result;
     }
 }

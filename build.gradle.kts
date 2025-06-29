@@ -18,7 +18,6 @@ dependencies {
     compileOnly(files("libs/Movecraft_8.0.0_beta-5.jar"))
     implementation("net.kyori:adventure-api:4.21.0")
     implementation("net.kyori:adventure-platform-bukkit:4.4.0")
-    compileOnly(files("libs/CombatLogX.jar"))
 }
 
 java {

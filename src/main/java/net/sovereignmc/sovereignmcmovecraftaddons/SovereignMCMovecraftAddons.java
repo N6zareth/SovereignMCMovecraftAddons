@@ -6,6 +6,7 @@ import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.Ammo
 import net.sovereignmc.sovereignmcmovecraftaddons.CraftDisplay.*;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftStorage.ContainerReturnListener;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftStorage.CraftStorageCommand;
+import net.sovereignmc.sovereignmcmovecraftaddons.Utilities.CombatTagManager;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RemoveTextDisplaysCommand;
 import net.sovereignmc.sovereignmcmovecraftaddons.InventoryModule.CraftACCA.CraftComposition.CraftCompCommands;
 import net.sovereignmc.sovereignmcmovecraftaddons.commands.RotateCommands;
@@ -21,15 +22,19 @@ public class SovereignMCMovecraftAddons extends JavaPlugin {
     public static SovereignMCMovecraftAddons getInstance() {
         return JavaPlugin.getPlugin(SovereignMCMovecraftAddons.class);
     }
-
     @Override
     public void onEnable() {
+
+        saveDefaultConfig();
 
         // initialize hull integrity tracker
         hullTracker = new CraftHullIntegrityTracker(this);
 
         // manoverboard!
-        getServer().getPluginManager().registerEvents(new ManOverboardListener(), this);
+        CombatTagManager combatTagManager = new CombatTagManager(this);
+        getServer().getPluginManager().registerEvents(combatTagManager, this);
+        getServer().getPluginManager().registerEvents(new ManOverboardListener(this, combatTagManager), this);
+
 
         // rotate
         RotateCommands rotateCommands = new RotateCommands();

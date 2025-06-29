@@ -17,7 +17,7 @@ public class RotateMessage implements Listener {
 
         Craft craft = CraftManager.getInstance().getCraftByPlayer(player);
         if (craft == null) {
-            player.sendRichMessage("<#6E97C8>[\u2693] You do not have a craft to release!");
+            player.sendRichMessage("<#6E97C8>[\u2693] You do not have a craft to rotate!");
             event.setCancelled(true);
             return;
         }

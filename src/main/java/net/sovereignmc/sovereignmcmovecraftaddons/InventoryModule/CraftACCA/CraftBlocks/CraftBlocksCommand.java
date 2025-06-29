@@ -30,7 +30,7 @@ public class CraftBlocksCommand implements CommandExecutor {
         }
 
         if (args.length == 0) {
-            player.sendMessage("Usage: /craftblocks <craftName>");
+            player.sendRichMessage("<#6E97C8>[\u2693] You must specify a craft to view its blocks!");
             return true;
         }
 

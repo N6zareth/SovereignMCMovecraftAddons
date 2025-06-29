@@ -26,9 +26,11 @@ public class CraftBlocksGUI extends PaginatedGUI {
     @Override
     protected List<ItemStack> getPageItems() {
         List<ItemStack> items = new ArrayList<>();
+        Set<Material> seen = new HashSet<>();
 
         for (Material mat : allowed) {
             if (!mat.isBlock()) continue;
+            if (!seen.add(mat)) continue;
 
             ItemStack item = new ItemStack(mat);
             ItemMeta meta = item.getItemMeta();

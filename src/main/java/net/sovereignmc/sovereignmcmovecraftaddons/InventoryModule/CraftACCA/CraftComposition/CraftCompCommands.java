@@ -15,7 +15,7 @@ public class CraftCompCommands implements CommandExecutor {
 
         Craft craft = CraftManager.getInstance().getCraftByPlayer(player);
         if (craft == null) {
-            player.sendRichMessage("<#6E97C8>[\u2693] Pilot a craft!");
+            player.sendRichMessage("<#6E97C8>[\u2693] You must pilot a craft to see its composition!");
             return true;
         }
 
